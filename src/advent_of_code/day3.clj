@@ -1,5 +1,6 @@
 (ns advent-of-code.day3
-  (:require [clojure.string :as str]))
+  (:require [clojure.string :as str]
+            [clojure.set :as set]))
 
 (defn to-points [path]
   (defn build-points [path-segments points start]
@@ -22,4 +23,5 @@
           (build-points (rest path-segments) new-points new-start))))
   (build-points (str/split path #",") (hash-set) [0 0]))
 
-(to-points "R8,U5")
+
+(set/intersection (to-points "R8,U5,L5,D3") (to-points "U7,R6,D4,L4"))
