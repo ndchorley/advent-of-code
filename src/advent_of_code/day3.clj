@@ -30,6 +30,9 @@
 (defn manhattan-distance [p q]
   (reduce + (map (fn [p-i q-i] (abs (- p-i q-i))) p q)))
 
-
-(map (fn [p] (manhattan-distance [0 0] p))
-     (set/intersection (to-points "R8,U5,L5,D3") (to-points "U7,R6,D4,L4")))
+(apply
+ min
+ (map (fn [p] (manhattan-distance [0 0] p))
+      (set/intersection
+       (to-points "R98,U47,R26,D63,R33,U87,L62,D20,R33,U53,R51")
+       (to-points "U98,R91,D20,R16,D67,R40,U7,R15,U6,R7"))))
