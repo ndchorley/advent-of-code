@@ -24,4 +24,12 @@
   (build-points (str/split path #",") (hash-set) [0 0]))
 
 
-(set/intersection (to-points "R8,U5,L5,D3") (to-points "U7,R6,D4,L4"))
+(defn abs [x]
+  (if (neg? x) (* -1 x) x))
+
+(defn manhattan-distance [p q]
+  (reduce + (map (fn [p-i q-i] (abs (- p-i q-i))) p q)))
+
+
+(map (fn [p] (manhattan-distance [0 0] p))
+     (set/intersection (to-points "R8,U5,L5,D3") (to-points "U7,R6,D4,L4")))
