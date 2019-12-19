@@ -7,13 +7,6 @@
       (let [digit (mod rest 10)]
         (recur (/ (- rest digit) 10) (conj digits digit))))))
 
-(defn to-operation [opcode]
-  (cond
-    (= opcode 1) +
-    (= opcode 2) *
-    ; Might need something else here!
-    (= opcode 99) identity))
-
 (defn to-parameter-mode [bit] (if (= 0 bit) :position :immediate))
 
 (defn default-missing-mode-bits [bits expected-count]
@@ -24,9 +17,15 @@
 (defn parse-operation [value]
   (let [digits (extract-digits value)
         [opcode-digits parameter-mode-bits] (split-at 2 digits)
-        opcode (+ (first opcode-digits) (* (second opcode-digits) 10))]
-    {:operation (to-operation opcode)
-     :parameter-modes (map to-parameter-mode parameter-mode-bits)}))
+        opcode (+ (first opcode-digits) (* (second opcode-digits) 10))
+        operation (cond
+                    (= opcode 1) {:operation +
+                                  :parameter-modes (default-missing-mode-bits parameter-mode-bits 3)}
+                    (= opcode 2) {:operation *
+                                  :parameter-modes (default-missing-mode-bits parameter-mode-bits 3)}
+                    ; Might need something else here!
+                    (= opcode 99) {:operation identity :parameter-modes []})]
+    (assoc operation :parameter-modes (map to-parameter-mode (:parameter-modes operation)))))
 
 (map parse-operation [1001 1102 1099])
 
