@@ -14,13 +14,13 @@
     ; Might need something else here!
     (= opcode 99) identity))
 
-(defn to-parameter-mode [digit] (if (= 0 digit) :position :immediate))
+(defn to-parameter-mode [bit] (if (= 0 bit) :position :immediate))
 
 (defn parse-operation [value]
   (let [digits (extract-digits value)
-        [opcode-digits parameter-mode-digits] (split-at 2 digits)
+        [opcode-digits parameter-mode-bits] (split-at 2 digits)
         opcode (+ (first opcode-digits) (* (second opcode-digits) 10))]
     {:operation (to-operation opcode)
-     :parameter-modes (map to-parameter-mode parameter-mode-digits)}))
+     :parameter-modes (map to-parameter-mode parameter-mode-bits)}))
 
 (map parse-operation [1001 1102 1099])
