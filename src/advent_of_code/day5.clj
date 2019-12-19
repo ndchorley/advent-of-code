@@ -1,9 +1,16 @@
 (ns advent-of-code.day5)
 
+(defn extract-digits [value]
+  (loop [rest value digits []]
+    (if (zero? rest)
+      digits
+      (let [digit (mod rest 10)]
+        (recur (/ (- rest digit) 10) (conj digits digit))))))
+
 (defn parse-operation [value]
-  (let [ones (mod value 10)
-        tens (mod (/ (- value ones) 10) 10)
-        opcode (+ ones (* tens 10))]
+  (let [digits (extract-digits value)
+        opcode-digits (first (split-at 2 digits))
+        opcode (+ (first opcode-digits) (* (second opcode-digits) 10))]
     (cond
       (= opcode 1) +
       (= opcode 2) *
