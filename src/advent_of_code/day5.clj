@@ -16,6 +16,11 @@
 
 (defn to-parameter-mode [bit] (if (= 0 bit) :position :immediate))
 
+(defn default-missing-mode-bits [bits expected-count]
+  (let [actual-count (count bits)]
+    (if (= actual-count expected-count) bits
+        (concat bits (repeat (- expected-count actual-count) 0)))))
+
 (defn parse-operation [value]
   (let [digits (extract-digits value)
         [opcode-digits parameter-mode-bits] (split-at 2 digits)
@@ -24,3 +29,5 @@
      :parameter-modes (map to-parameter-mode parameter-mode-bits)}))
 
 (map parse-operation [1001 1102 1099])
+
+(default-missing-mode-bits (second (split-at 2 (extract-digits 1099))) 3)
