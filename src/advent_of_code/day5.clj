@@ -9,12 +9,15 @@
 
 (defn parse-operation [value]
   (let [digits (extract-digits value)
-        opcode-digits (first (split-at 2 digits))
+        [opcode-digits parameter-mode-digits] (split-at 2 digits)
         opcode (+ (first opcode-digits) (* (second opcode-digits) 10))]
-    (cond
-      (= opcode 1) +
-      (= opcode 2) *
-      ; Might need something else here!
-      (= opcode 99) identity)))
+    {:operation
+     (cond
+       (= opcode 1) +
+       (= opcode 2) *
+       ; Might need something else here!
+       (= opcode 99) identity)
+     :parameter-modes parameter-mode-digits
+     }))
 
 (map parse-operation [1001 1102 1099])
