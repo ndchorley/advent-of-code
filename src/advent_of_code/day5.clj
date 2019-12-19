@@ -7,8 +7,6 @@
       (let [digit (mod rest 10)]
         (recur (/ (- rest digit) 10) (conj digits digit))))))
 
-(defn to-parameter-mode [bit] (if (= 0 bit) :position :immediate))
-
 (defn default-missing-mode-bits [bits expected-count]
   (let [actual-count (count bits)]
     (if (= actual-count expected-count) bits
@@ -25,7 +23,10 @@
                                   :parameter-modes (default-missing-mode-bits parameter-mode-bits 3)}
                     ; Might need something else here!
                     (= opcode 99) {:operation identity :parameter-modes []})]
-    (assoc operation :parameter-modes (map to-parameter-mode (:parameter-modes operation)))))
+    (assoc
+     operation
+     :parameter-modes
+     (map (fn [bit] (if (= 0 bit) :position :immediate)) (:parameter-modes operation)))))
 
 (map parse-operation [1001 1102 1099])
 
