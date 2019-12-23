@@ -39,7 +39,7 @@
     (let [operation (parse-operation (nth current-program operation-index))]
       (if (= operation :stop) current-program
           (let [parameters (parameter-values current-program operation-index (butlast (:parameter-modes operation)))
-                result-index (+ operation-index (count (:parameter-modes operation)) 1)
+                result-index (nth current-program (+ operation-index (count (:parameter-modes operation))))
                 result (apply (:operation operation) parameters)]
             (recur
              (day2/replace-at result-index current-program result)
