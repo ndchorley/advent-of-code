@@ -24,9 +24,7 @@
                     :parameter-modes (map to-position-mode (default-missing-mode-bits parameter-mode-bits 3))}
       (= opcode 2) {:operation *
                     :parameter-modes (map to-position-mode (default-missing-mode-bits parameter-mode-bits 3))}
-      ; Might need something else here!
       (= opcode 99) :stop)))
-
 
 (defn intcode-computer [program]
   (loop [current-program program operation-index 0]
