@@ -45,4 +45,4 @@
              (day2/replace-at result-index current-program result)
              (+ operation-index (count (:parameter-modes operation)) 1)))))))
 
-(intcode-computer (day2/to-program "1002,4,3,4,33"))
+(map (comp intcode-computer day2/to-program) ["1002,4,3,4,33" "1101,100,-1,4,0"])
