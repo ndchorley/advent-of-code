@@ -25,6 +25,7 @@
       (= opcode 2) {:operation *
                     :parameter-modes (map to-position-mode (default-missing-mode-bits parameter-mode-bits 3))}
       (= opcode 3) {:operation (fn [] (first inputs)) :parameter-modes [:position]}
+      (= opcode 4) :output
       (= opcode 99) :stop)))
 
 (defn parameter-values [program operation-index modes]
@@ -38,16 +39,20 @@
 (defn intcode-computer [inputs program]
   (loop [current-program program operation-index 0]
     (let [operation (parse-operation (nth current-program operation-index) inputs)]
-      (if (= operation :stop) current-program
-          (let [parameters (parameter-values current-program operation-index (butlast (:parameter-modes operation)))
-                result-index (nth current-program (+ operation-index (count (:parameter-modes operation))))
-                result (apply (:operation operation) parameters)]
-            (recur
-             (day2/replace-at result-index current-program result)
-             (+ operation-index (count (:parameter-modes operation)) 1)))))))
+      (cond
+        (= operation :stop) current-program
+        (= operation :output) (do
+                                (println (first (parameter-values current-program operation-index [:position])))
+                                (recur current-program (+ operation-index 2)))
+        true (let [parameters (parameter-values current-program operation-index (butlast (:parameter-modes operation)))
+              result-index (nth current-program (+ operation-index (count (:parameter-modes operation))))
+              result (apply (:operation operation) parameters)]
+               (recur
+                (day2/replace-at result-index current-program result)
+                (+ operation-index (count (:parameter-modes operation)) 1)))))))
 
 (map
  (comp (partial intcode-computer []) day2/to-program)
  ["1002,4,3,4,33" "1101,100,-1,4,0"])
 
-(intcode-computer [21] (day2/to-program "3,0,99"))
+(intcode-computer [21] (day2/to-program "3,0,4,0,99"))
