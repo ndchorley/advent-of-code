@@ -26,16 +26,20 @@
                     :parameter-modes (map to-position-mode (default-missing-mode-bits parameter-mode-bits 3))}
       (= opcode 99) :stop)))
 
+(defn parameter-values [program operation-index modes]
+  (map-indexed
+   (fn [i mode]
+     (if (= :position mode)
+       (nth program (nth program (+ operation-index i 1)))
+       (nth program (+ operation-index i 1))))
+   modes))
+
 (defn intcode-computer [program]
   (loop [current-program program operation-index 0]
     (let [operation (parse-operation (nth current-program operation-index))]
       (if (= operation :stop) current-program
-          (let [parameters (map-indexed
-                            (fn [i mode] (if (= :position mode)
-                                           (nth current-program (nth current-program (+ operation-index i 1)))
-                                           (nth current-program (+ operation-index i 1))))  (butlast (:parameter-modes operation)))
+          (let [parameters (parameter-values current-program operation-index (butlast (:parameter-modes operation)))
                 result-index (+ operation-index (count (:parameter-modes operation)) 1)
-
                 result (apply (:operation operation) parameters)]
             (recur
              (day2/replace-at result-index current-program result)
