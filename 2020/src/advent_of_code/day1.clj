@@ -1,6 +1,7 @@
 (ns advent-of-code.day1
   (:require [clojure.java.io :as io]
-            [clojure.string :as str]))
+            [clojure.string :as str]
+            [clojure.set :as set]))
 
 (def values 
   (into
@@ -9,15 +10,16 @@
     #(Integer/parseInt %)
     (str/split-lines (slurp (io/resource "day1"))))))
 
-(defn pair-values-with-rest [values]
-  (map
-   (fn [value] {:value value :rest (- 2020 value)})
-   values))
+(defn pairs-with-sum-of-2020 [values]
+  (apply
+   hash-set
+   (map
+    #(hash-set % (- 2020 %))
+    values)))
 
 (apply
  *
- (vals 
-  (first
-   (filter
-    #(contains? values (% :rest))
-    (pair-values-with-rest values)))))
+ (first
+  (filter
+   #(set/subset? % values)
+   (pairs-with-sum-of-2020 values))))
