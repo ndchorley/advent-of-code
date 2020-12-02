@@ -22,3 +22,21 @@
   (filter
    #(set/subset? % values)
    (pairs-with-sum 2020 values))))
+
+(apply
+ *
+ (first
+  (filter
+   #(= (count %) 3)
+   (apply
+    hash-set
+    (map
+     (fn [value]
+       (let [rest (- 2020 value)
+             values-remaining (disj values value)
+             valid-pair-with-sum-rest
+             (first (filter
+                     #(set/subset? % values)
+                     (pairs-with-sum rest values-remaining)))]
+         (conj valid-pair-with-sum-rest value)))
+     values)))))
