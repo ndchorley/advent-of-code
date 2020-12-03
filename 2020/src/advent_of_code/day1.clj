@@ -1,15 +1,14 @@
 (ns advent-of-code.day1
   (:require
-   [clojure.java.io :as io]
-   [clojure.string :as str]
-   [clojure.set :as set]))
+   [clojure.set :as set]
+   [advent-of-code.core :refer :all]))
 
 (def values 
   (into
    #{}
    (map
     #(Integer/parseInt %)
-    (str/split-lines (slurp (io/resource "day1"))))))
+    (read-lines "day1"))))
 
 (defn pairs-with-sum [sum values]
   (map

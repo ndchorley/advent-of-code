@@ -1,7 +1,5 @@
 (ns advent-of-code.day2
-  (:require
-   [clojure.java.io :as io]
-   [clojure.string :as str]))
+  (:require [advent-of-code.core :refer :all]))
 
 (defn parse-line [line]
   (let [[min-str max-str letter password] 
@@ -25,5 +23,6 @@
 (count
  (filter
   valid-password?
-  (map parse-line
-       (str/split-lines (slurp (io/resource "day2"))))))
+  (map
+   parse-line
+   (read-lines "day2"))))
