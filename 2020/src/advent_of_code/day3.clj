@@ -1,8 +1,6 @@
 (ns advent-of-code.day3
   (:require [advent-of-code.core :refer :all]))
 
-(def input-map (read-lines "day3"))
-
 (defn points-visited [input-map [dx dy]]
   (let [width (count (first input-map))
         height (count input-map)]
@@ -25,6 +23,8 @@
     (map
      (partial character-at input-map)
      (points-visited input-map slope)))))
+
+(def input-map (read-lines "day3"))
 
 (count-trees input-map [3 1])
 
