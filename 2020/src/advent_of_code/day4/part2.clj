@@ -31,6 +31,11 @@
       (>= height 59)
       (<= height 76)))))
 
+(defn is-present-and-valid? [passport [field valid-value?]]
+  (and
+   (contains? passport field)
+   (valid-value? (passport field))))
+
 (defn valid? [passport]
   (let [expected-fields-to-valid
         {"byr" (partial valid-year-between? 1920 2002)
@@ -45,9 +50,7 @@
     (every?
      true?
      (map
-      (fn [[field valid-value?]]
-        (and (contains? passport field)
-             (valid-value? (passport field))))
+      (partial is-present-and-valid? passport)
       (seq expected-fields-to-valid)))))
 
 (count-valid-passports valid? (passports (read-lines "day4")))
