@@ -26,13 +26,22 @@
          \L)]
   (+ (* row 8) column)))
 
-(defn find-highest-seat-id [boarding-passes]
-  (apply
-   max
+
+(def seat-ids
+  (sort
    (map
     to-seat-id
     (map
      #(split-at 7 %)
-     boarding-passes))))
+     (read-lines "day5")))))
 
-(find-highest-seat-id (read-lines "day5"))
+(last seat-ids)
+
+(first
+ (drop-while
+  (fn [[first second]]
+    (not (= (- second first) 2)))
+  (partition
+   2
+   1
+   seat-ids)))
