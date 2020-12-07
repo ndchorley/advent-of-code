@@ -3,28 +3,6 @@
    [clojure.set]
    [advent-of-code.core :refer :all]))
 
-(defn indexes-of [what coll]
-  (loop [index 0 result []]
-    (if (>= index (count coll))
-      result
-      (recur
-       (inc index)
-       (if (= (coll index) what)
-         (conj result index)
-         result)))))
-
-(defn passport-boundaries [batch-file]
-  (let [blank-line-indexes
-        (indexes-of "" batch-file)]
-    (partition
-     2
-     (concat
-      [0] 
-      (interleave
-       blank-line-indexes
-       (map inc blank-line-indexes))
-      [(count batch-file)]))))
-
 (defn parse-line [line]
   (let [matcher
         (re-matcher
@@ -43,19 +21,10 @@
    merge
    (map parse-line lines)))
 
-(defn group-passport-lines
-  [batch-file boundaries]
-  (map
-   (fn [[start end]]
-     (subvec batch-file start end))
-   boundaries))
-
 (defn passports [batch-file]
   (map
    parse-passport
-   (group-passport-lines
-    batch-file
-    (passport-boundaries batch-file))))
+   (split-at-separator "" batch-file)))
 
 (defn valid? [passport]
   (let [expected-fields
