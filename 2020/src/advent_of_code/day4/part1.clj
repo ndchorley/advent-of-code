@@ -24,7 +24,9 @@
 (defn passports [batch-file]
   (map
    parse-passport
-   (split-at-separator "" batch-file)))
+   (filter
+    #(not (= "" %))
+    (partition-by #(= "" %) batch-file))))
 
 (defn valid? [passport]
   (let [expected-fields

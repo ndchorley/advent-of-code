@@ -15,7 +15,7 @@
  +      
  (map
   count-distinct-questions
-  (split-at-separator "" (read-lines "day6"))))
+  (partition-by #(= "" %) (read-lines "day6"))))
 
 (defn count-common-questions [group]
   (count 
@@ -27,4 +27,4 @@
  +
  (map
   count-common-questions
-  (split-at-separator "" (read-lines "day6"))))
+  (partition-by #(= "" %) (read-lines "day6"))))
