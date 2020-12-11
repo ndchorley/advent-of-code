@@ -38,39 +38,47 @@
          (conj
           (clojure.lang.PersistentQueue/EMPTY)
           colour)
-         contains-wanted-colour false]
+         contains-wanted-colour false
+         path nil
+         ]
     
     (if (or contains-wanted-colour (empty? queue))
-      contains-wanted-colour
+      [contains-wanted-colour path]
       (let [current-colour (peek queue)
-            [found next-colours]
+            [found next-colours path]
             (loop [bags (graph current-colour)
-                   result #{}]
+                   result #{}
+                   path [colour current-colour]
+                   ]
               (if (empty? bags)
-                [false result]
+                [false result path]
                 (let [[_ contained-bag-colour]
                       (peek bags)]
                   (if (= contained-bag-colour
                          wanted-colour)
-                    [true #{}]
+                    [true #{} (conj path contained-bag-colour)]
                     (recur
                      (pop bags)
                      (conj
                       result
-                      contained-bag-colour))))
+                      contained-bag-colour)
+                     path
+                     )))
                 ))]
         (recur
          (apply conj (pop queue) next-colours)
-         found)))))
+         found
+         path)))))
 
 (defn find-bags-containing [graph colour]
   (let [other-colours
         (disj (into #{} (keys graph)) colour)]
 
-    (filter 
-     #(can-bag-contain-colour? graph % colour)
-     other-colours
-     )))
+    (filter
+     (fn [[answer path]] (true? answer))
+     (map
+      #(can-bag-contain-colour? graph % colour)
+      other-colours))))
 
 (find-bags-containing 
  (build-graph "day7_small")
