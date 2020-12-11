@@ -24,7 +24,7 @@
     [colour
      (if (= contents "no other")
        nil 
-       (map
+       (mapv
         (comp parse-bag str/trim)
         (str/split contents #",")))]))
 
@@ -32,4 +32,47 @@
 (defn build-graph [file]
   (into {} (map parse-line (read-lines file))))
 
-(build-graph "day7")
+(defn can-bag-contain-colour?
+  [graph colour wanted-colour]
+  (loop [queue
+         (conj
+          (clojure.lang.PersistentQueue/EMPTY)
+          colour)
+         contains-wanted-colour false]
+    
+    (if (or contains-wanted-colour (empty? queue))
+      contains-wanted-colour
+      (let [current-colour (peek queue)
+            [found next-colours]
+            (loop [bags (graph current-colour)
+                   result #{}]
+              (if (empty? bags)
+                [false result]
+                (let [[_ contained-bag-colour]
+                      (peek bags)]
+                  (if (= contained-bag-colour
+                         wanted-colour)
+                    [true #{}]
+                    (recur
+                     (pop bags)
+                     (conj
+                      result
+                      contained-bag-colour))))
+                ))]
+        (recur
+         (apply conj (pop queue) next-colours)
+         found)))))
+
+(defn find-bags-containing [graph colour]
+  (let [other-colours
+        (disj (into #{} (keys graph)) colour)]
+
+    (filter 
+     #(can-bag-contain-colour? graph % colour)
+     other-colours
+     )))
+
+(find-bags-containing 
+ (build-graph "day7_small")
+ "shiny gold"
+ )
