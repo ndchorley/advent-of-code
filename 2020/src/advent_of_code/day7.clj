@@ -80,7 +80,8 @@
       #(can-bag-contain-colour? graph % colour)
       other-colours))))
 
-(find-bags-containing 
- (build-graph "day7_small")
- "shiny gold"
- )
+(count
+ (find-bags-containing 
+  (build-graph "day7")
+  "shiny gold"
+  ))
