@@ -85,3 +85,21 @@
   (build-graph "day7")
   "shiny gold"
   ))
+
+(defn count-bags [graph colour]
+  (let [children (graph colour)]
+    (if (nil? children)
+      0
+      (apply
+       +
+       (map
+        (fn [[count child]]
+          (+
+           count
+           (* count (count-bags graph child))))
+        children)))))
+
+(count-bags
+ (build-graph "day7")
+ "shiny gold"
+ )
