@@ -11,25 +11,25 @@
 
 (defn execute [instructions]
   (loop [offset 0 accumulator 0 offsets-seen #{}]
-    (let [instruction (instructions offset)]
-      (if (contains? offsets-seen offset)
-        accumulator
-        (let [[operation argument] instruction
-              [next-offset new-accumulator]
-              (cond
-                (= operation "nop") [(inc offset)
-                                     accumulator]
-                (= operation "acc") [(inc offset)
-                                     (+
-                                      accumulator
-                                      argument)]
-                (= operation "jmp") [(+ offset argument)
-                                     accumulator]
-                )]
-          (recur
-           next-offset
-           new-accumulator
-           (conj offsets-seen offset)))))))
+    (if (contains? offsets-seen offset)
+      accumulator
+      (let [[operation argument]
+            (instructions offset)
+            [next-offset new-accumulator]
+            (cond
+              (= operation "nop") [(inc offset)
+                                   accumulator]
+              (= operation "acc") [(inc offset)
+                                   (+
+                                    accumulator
+                                    argument)]
+              (= operation "jmp") [(+ offset argument)
+                                   accumulator]
+              )]
+        (recur
+         next-offset
+         new-accumulator
+         (conj offsets-seen offset))))))
 
 (execute
  (mapv
