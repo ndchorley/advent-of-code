@@ -6,8 +6,8 @@
   (count
    (filter
     (fn [pair] (> (second pair) (first pair)))
-    depths)))
+    (partition 2 1 depths))))
 
 (let [lines (read-lines "day_1_input")
       depths (map #(Integer/parseInt %) lines)]
-  (number-of-increasing-measurements (partition 2 1 depths)))
+  (number-of-increasing-measurements depths))
