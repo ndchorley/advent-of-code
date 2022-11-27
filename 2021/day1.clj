@@ -1,6 +1,8 @@
 (require '[clojure.string :as str])
 
-(let [lines (str/split-lines (slurp "day_1_input"))
+(defn read-lines [file-name] (str/split-lines (slurp file-name)))
+
+(let [lines (read-lines "day_1_input")
       depths (map #(Integer/parseInt %) lines)]
 
   (count
