@@ -11,21 +11,17 @@
      :horizontal-position
      new-horizontal-position)))
 
+(defn change-depth [current-coordinates delta]
+  (let [new-depth (+ (current-coordinates :depth) delta)]
+    (assoc current-coordinates :depth new-depth)))
+
 (defn move-up [current-coordinates amount]
-  (let [new-depth
-        (- (current-coordinates :depth) amount)]
-    (assoc
-     current-coordinates
-     :depth
-     new-depth)))
+  (let [delta (* -1 amount)]
+    (change-depth current-coordinates delta)))
 
 (defn move-down [current-coordinates amount]
-  (let [new-depth
-        (+ (current-coordinates :depth) amount)]
-    (assoc
-     current-coordinates
-     :depth
-     new-depth)))
+  (let [delta amount]
+    (change-depth current-coordinates delta)))
 
 (let [commands
       {"forward" move-forwards
