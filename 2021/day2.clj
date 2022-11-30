@@ -3,37 +3,24 @@
     {:command command
      :amount (Integer/parseInt amount_string)}))
 
-(defn move-forwards [current-coordinates amount]
-  (let [new-horizontal-position
-        (+
-         (current-coordinates :horizontal-position)
-         amount)
-
-        new-depth
-        (+
-         (current-coordinates :depth)
-         (* (current-coordinates :aim) amount))]
-
+(defn change [current-coordinates which amount]
+  (let [current-value (current-coordinates which)]
     (assoc
      current-coordinates
+     which
+     (+ current-value amount))))
 
-     :horizontal-position
-     new-horizontal-position
-
-     :depth
-     new-depth)))
-
-(defn change-aim [current-coordinates delta]
-  (let [new-aim (+ (current-coordinates :aim) delta)]
-    (assoc current-coordinates :aim new-aim)))
+(defn move-forwards [current-coordinates amount]
+  (->
+   current-coordinates
+   (change :horizontal-position amount)
+   (change :depth (* (current-coordinates :aim) amount))))
 
 (defn move-up [current-coordinates amount]
-  (let [delta (* -1 amount)]
-    (change-aim current-coordinates delta)))
+  (change current-coordinates :aim (* -1 amount)))
 
 (defn move-down [current-coordinates amount]
-  (let [delta amount]
-    (change-aim current-coordinates delta)))
+  (change current-coordinates :aim amount))
 
 (let [commands
       {"forward" move-forwards
