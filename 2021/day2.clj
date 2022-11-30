@@ -33,10 +33,8 @@
       final-coordinates
       (reduce
        (fn [current-coordinates next]
-         (let [command (commands (next :command))
-               result (command current-coordinates (next :amount))]
-           (do
-             result)))
+         (let [command (commands (next :command))]
+           (command current-coordinates (next :amount))))
        {:horizontal-position 0 :depth 0 :aim 0}
        parsed-lines)]
 
