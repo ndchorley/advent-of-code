@@ -20,9 +20,15 @@
 (defn most-calories [total-per-elf]
   (apply max total-per-elf))
 
-(->
- "day_1_input"
- (read-lines)
- (calories-per-elf)
- (total-per-elf)
- (most-calories))
+(defn top-three [totals]
+  (take 3 (sort > totals)))
+
+(let [totals
+      (->
+       "day_1_input"
+       (read-lines)
+       (calories-per-elf)
+       (total-per-elf))]
+  (most-calories totals)
+
+  (apply + (top-three totals)))
