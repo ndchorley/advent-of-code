@@ -7,7 +7,7 @@
 (defn my-shape [letter]
   ({"X" :rock "Y" :paper "Z" :scissors} letter))
 
-(defn as-shapes [letters]
+(defn decrypt [letters]
   (map
    (fn [[opponent mine]]
      [(opponent-shape opponent) (my-shape mine)])
@@ -39,6 +39,6 @@
  "day_2_input"
  (read-lines)
  (separate-letters)
- (as-shapes)
+ (decrypt)
  (scores-per-round)
  (total))
