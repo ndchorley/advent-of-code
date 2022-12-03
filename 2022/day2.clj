@@ -7,21 +7,21 @@
 (defn my-shape [letter]
   ({"X" :rock "Y" :paper "Z" :scissors} letter))
 
-(defn decrypt [letters]
+(defn decrypt [strategy-guide]
   (map
    (fn [[opponent mine]]
      [(opponent-shape opponent) (my-shape mine)])
-   letters))
+   strategy-guide))
 
 (defn needed-outcome [letter]
   ({"X" :lose "Y" :draw "Z" :win} letter))
 
-(defn decrypt-correctly [rounds]
+(defn decrypt-correctly [strategy-guide]
   (map
    (fn [round]
      [(opponent-shape (first round))
       (needed-outcome (second round))])
-   rounds))
+   strategy-guide))
 
 (defn shape-score [shape]
   ({:rock 1 :paper 2 :scissors 3} shape))
