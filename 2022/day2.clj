@@ -62,19 +62,19 @@
    (fn [round] [(first round) (choose-shape round)])
    rounds))
 
-(let [rounds
+(let [strategy-guide
       (->
        "day_2_input"
        (read-lines)
        (into-rounds))]
   (->
-   rounds
+   strategy-guide
    (decrypt)
    (scores-per-round)
    (total))
 
   (->
-   rounds
+   strategy-guide
    (decrypt-correctly)
    (choose-shape-based-on-outcome)
    (scores-per-round)
