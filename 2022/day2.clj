@@ -54,10 +54,10 @@
     (= needed-outcome :win) (what-defeats opponent-shape)
     (= needed-outcome :lose) (what-loses-to opponent-shape)))
 
-(defn choose-shape-based-on-outcome [rounds]
+(defn choose-shape-based-on-outcome [strategy-guide]
   (map
    (fn [round] [(first round) (choose-shape round)])
-   rounds))
+   strategy-guide))
 
 (let [strategy-guide
       (->
