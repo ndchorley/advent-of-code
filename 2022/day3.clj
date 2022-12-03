@@ -33,10 +33,7 @@
 (defn find-common-item-per-group [groups]
   (map item-in-common groups))
 
-(let [lines
-      (->
-       "day_3_input"
-       (read-lines))]
+(let [lines (-> "day_3_input" (read-lines))]
   (->
    lines
    (parse-rucksack-items)
