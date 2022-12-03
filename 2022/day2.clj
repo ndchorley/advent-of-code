@@ -26,11 +26,14 @@
 (defn shape-score [shape]
   ({:rock 1 :paper 2 :scissors 3} shape))
 
+(defn what-defeats [shape]
+  ({:rock :paper :paper :scissors :scissors :rock} shape))
+
+(defn what-loses-to [shape]
+  ({:rock :scissors :paper :rock :scissors :paper} shape))
+
 (defn defeats? [[opponent-shape my-shape]]
-  (or
-   (and (= my-shape :rock) (= opponent-shape :scissors))
-   (and (= my-shape :scissors) (= opponent-shape :paper))
-   (and (= my-shape :paper) (= opponent-shape :rock))))
+  (= (what-loses-to my-shape) opponent-shape))
 
 (defn outcome-score [[opponent-shape my-shape]]
   (cond
@@ -44,12 +47,6 @@
    (outcome-score [opponent-shape my-shape])))
 
 (defn scores-per-round [rounds] (map score rounds))
-
-(defn what-defeats [shape]
-  ({:rock :paper :paper :scissors :scissors :rock} shape))
-
-(defn what-loses-to [shape]
-  ({:rock :scissors :paper :rock :scissors :paper} shape))
 
 (defn choose-shape [[opponent-shape needed-outcome]]
   (cond
