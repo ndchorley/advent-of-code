@@ -6,13 +6,17 @@
      (split-at (/ (count line) 2) line))
    lines))
 
+(defn item-in-common [compartments]
+  (first
+   (apply
+    set/intersection
+    (map
+     (fn [compartment] (into #{} compartment))
+     compartments))))
+
 (defn find-items-in-both-compartments [rucksacks]
   (map
-   (fn [rucksack]
-     (first
-      (set/intersection
-       (into #{} (first rucksack))
-       (into #{} (second rucksack)))))
+   item-in-common
    rucksacks))
 
 (defn convert-to-priorities [items]
@@ -23,10 +27,27 @@
        (+ 27 (- (int item) (int \A)))))
    items))
 
-(->
- "day_3_input"
- (read-lines)
- (parse-rucksack-items)
- (find-items-in-both-compartments)
- (convert-to-priorities)
- (total))
+(defn group-rucksacks [lines]
+  (partition 3 lines))
+
+(defn find-common-item-per-group [groups]
+  (map item-in-common groups))
+
+(let [lines
+      (->
+       "day_3_input"
+       (read-lines))]
+  (->
+   lines
+   (parse-rucksack-items)
+   (find-items-in-both-compartments)
+   (convert-to-priorities)
+   (total))
+
+  (->
+   "day_3_input"
+   (read-lines)
+   (group-rucksacks)
+   (find-common-item-per-group)
+   (convert-to-priorities)
+   (total)))
