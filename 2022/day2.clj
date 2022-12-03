@@ -16,7 +16,7 @@
 (defn shape-score [shape]
   ({:rock 1 :paper 2 :scissors 3} shape))
 
-(defn defeats [[opponent-shape my-shape]]
+(defn defeats? [[opponent-shape my-shape]]
   (or
    (and (= my-shape :rock) (= opponent-shape :scissors))
    (and (= my-shape :scissors) (= opponent-shape :paper))
@@ -25,7 +25,7 @@
 (defn outcome-score [[opponent-shape my-shape]]
   (cond
     (= opponent-shape my-shape) 3
-    (defeats [opponent-shape my-shape]) 6
+    (defeats? [opponent-shape my-shape]) 6
     true 0))
 
 (defn score [[opponent-shape my-shape]]
