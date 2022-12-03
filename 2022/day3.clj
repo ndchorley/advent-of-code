@@ -45,8 +45,7 @@
    (total))
 
   (->
-   "day_3_input"
-   (read-lines)
+   lines
    (group-rucksacks)
    (find-common-item-per-group)
    (convert-to-priorities)
