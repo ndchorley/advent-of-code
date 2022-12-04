@@ -15,18 +15,18 @@
 
 (defn end [range] (second range))
 
-(defn fully-contained-ranges [section-assignments]
-  (filter
-   (fn [[first-range second-range]]
-     (or
-      (and
-       (>= (start second-range) (start first-range))
-       (<= (end second-range) (end first-range)))
+(defn fully-contained? [[first-range second-range]]
+  (or
+   (and
+    (>= (start second-range) (start first-range))
+    (<= (end second-range) (end first-range)))
 
-      (and
-       (>= (start first-range) (start second-range))
-       (<= (end first-range) (end second-range)))))
-   section-assignments))
+   (and
+    (>= (start first-range) (start second-range))
+    (<= (end first-range) (end second-range)))))
+
+(defn fully-contained-ranges [section-assignments]
+  (filter fully-contained? section-assignments))
 
 (->
  "day_4_input"
