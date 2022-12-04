@@ -16,13 +16,13 @@
 (defn find-items-in-both-compartments [rucksacks]
   (map item-in-common rucksacks))
 
+(defn priority [item]
+  (if (Character/isLowerCase item)
+    (+ 1 (- (int item) (int \a)))
+    (+ 27 (- (int item) (int \A)))))
+
 (defn convert-to-priorities [items]
-  (map
-   (fn [item]
-     (if (Character/isLowerCase item)
-       (+ 1 (- (int item) (int \a)))
-       (+ 27 (- (int item) (int \A)))))
-   items))
+  (map priority items))
 
 (defn group-rucksacks [lines]
   (partition 3 lines))
