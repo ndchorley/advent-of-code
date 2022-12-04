@@ -7,17 +7,14 @@
    lines))
 
 (defn item-in-common [compartments]
-  (first
-   (apply
-    set/intersection
-    (map
-     (fn [compartment] (into #{} compartment))
-     compartments))))
+  (->>
+   compartments
+   (map (fn [compartment] (into #{} compartment)))
+   (apply set/intersection)
+   first))
 
 (defn find-items-in-both-compartments [rucksacks]
-  (map
-   item-in-common
-   rucksacks))
+  (map item-in-common rucksacks))
 
 (defn convert-to-priorities [items]
   (map
