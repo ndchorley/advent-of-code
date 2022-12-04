@@ -15,15 +15,15 @@
 
 (defn end [range] (second range))
 
+(defn within? [first-range second-range]
+  (and
+   (>= (start first-range) (start second-range))
+   (<= (end first-range) (end second-range))))
+
 (defn fully-contained? [[first-range second-range]]
   (or
-   (and
-    (>= (start second-range) (start first-range))
-    (<= (end second-range) (end first-range)))
-
-   (and
-    (>= (start first-range) (start second-range))
-    (<= (end first-range) (end second-range)))))
+   (within? second-range first-range)
+   (within? first-range second-range)))
 
 (defn fully-contained-ranges [section-assignments]
   (filter fully-contained? section-assignments))
