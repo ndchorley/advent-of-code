@@ -114,6 +114,8 @@
 (defn add-crate-to [stacks which crate]
   (update stacks which (fn [stack] (conj stack crate))))
 
+(defn one-less [n] (dec n))
+
 (defn move-crates [stacks instruction]
   (if (zero? (instruction :how-many))
     stacks
@@ -126,7 +128,8 @@
        stacks
        (remove-crate-from (instruction :from))
        (add-crate-to (instruction :to) crate)
-       (move-crates (update instruction :how-many dec))))))
+       (move-crates
+        (update instruction :how-many one-less))))))
 
 (defn rearrange-crates [initial-stacks instructions]
   (reduce move-crates initial-stacks instructions))
