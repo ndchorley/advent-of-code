@@ -1,8 +1,3 @@
-let is_digit character = 
-  match character with
-  | '0' | '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9' -> true
-  | _ -> false
-
 let first_and_last digits =
   let first = List.hd digits in
   let last = Lists.last digits in
@@ -10,7 +5,7 @@ let first_and_last digits =
 
 let calibration_value line =
   Strings.to_char_list line
-  |> List.filter is_digit
+  |> List.filter Characters.is_digit
   |> first_and_last
   |> Strings.from_char_list
   |> int_of_string
