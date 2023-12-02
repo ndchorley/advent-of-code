@@ -16,4 +16,4 @@ let values_from calibration_document =
 let solution () = 
   let calibration_document = Input.read_input "input/day1_input" in
   let calibration_values = values_from calibration_document in
-    List.fold_left Int.add 0 calibration_values |> string_of_int
+    Integers.sum calibration_values |> string_of_int
