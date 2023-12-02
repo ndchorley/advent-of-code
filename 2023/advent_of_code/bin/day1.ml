@@ -5,7 +5,7 @@ let is_digit character =
 
 let first_and_last digits =
   let first = List.hd digits in
-  let last = List.nth digits (List.length digits - 1) in
+  let last = Lists.last digits in
     [first; last]
 
 let calibration_value line =
