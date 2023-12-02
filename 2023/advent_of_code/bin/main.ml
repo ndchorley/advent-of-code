@@ -1,5 +1,5 @@
-open Input
+let day = Command_line.get_day
 
-let lines = read_input "input/foo"
+let solution = (Solutions.for_day day)
 
-let () = print_endline (List.hd lines)
+let () = print_endline (solution ())
