@@ -13,7 +13,7 @@ let calibration_value line =
 let calibration_values calibration_document =
   List.map calibration_value calibration_document
 
-let solution () = 
+let part_1_solution () =
   let calibration_document = Input.read_input "input/day1_input" in
     calibration_document
     |> calibration_values
