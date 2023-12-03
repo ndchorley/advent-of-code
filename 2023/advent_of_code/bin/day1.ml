@@ -13,10 +13,11 @@ let calibration_value_part_1 line =
 let calibration_values calibration_value calibration_document =
   List.map calibration_value calibration_document
 
-let part_1_solution () =
+let solution calibration_value =
   let calibration_document = Input.read_input "input/day1_input" in
     calibration_document
-    |> calibration_values calibration_value_part_1
+    |> calibration_values calibration_value
     |> Integers.sum
     |> string_of_int
    
+let part_1_solution () = solution calibration_value_part_1
