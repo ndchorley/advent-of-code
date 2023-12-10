@@ -81,7 +81,7 @@ let calibration_values calibration_value calibration_document =
   List.map calibration_value calibration_document
 
 let solution calibration_value =
-  let calibration_document = Input.read_input "input/day1_input" in
+  let calibration_document = Input.read_input "input/day1" in
     calibration_document
     |> calibration_values calibration_value
     |> Integers.sum

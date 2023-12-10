@@ -39,7 +39,7 @@ let parse_game line =
 let parse_games lines = List.map parse_game lines
 
 let record_of_games =
-  Input.read_input "input/day2_input"
+  Input.read_input "input/day2"
   |> parse_games
 
 let is_possible game =
