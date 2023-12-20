@@ -74,6 +74,9 @@
    (not (Character/isDigit character))
    (not= character \.)))
 
+(defn keep-only-the-symbols [characters]
+  (filter is-symbol? characters))
+
 (defn is-adjacent-to-a-symbol? [lines number]
   (let [adjacent-characters
         (clojure.set/union
@@ -81,7 +84,7 @@
          (adjacent-characters-of (:end number) lines))]
     (->>
      adjacent-characters
-     (filter is-symbol?)
+     (keep-only-the-symbols)
      (not-empty?))))
 
 (defn only-those-adjacent-to-a-symbol [lines all-numbers]
