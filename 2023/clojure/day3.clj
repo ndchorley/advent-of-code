@@ -74,9 +74,6 @@
    (not (Character/isDigit character))
    (not= character \.)))
 
-(defn not-empty? [collection]
-  (not (nil? (seq collection))))
-
 (defn is-adjacent-to-a-symbol? [lines number]
   (let [adjacent-characters
         (clojure.set/union

@@ -4,3 +4,6 @@
   (str/split-lines (slurp file-name)))
 
 (defn total [values] (apply + values))
+
+(defn not-empty? [collection]
+  (not (nil? (seq collection))))
