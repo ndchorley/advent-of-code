@@ -31,12 +31,17 @@
 
     (->> results-per-line (filter not-empty))))
 
-(defn find-all-numbers-and-their-positions [lines]
+(defn find-all-matches [lines find-matches-per-line]
   (->>
    lines
    (with-line-numbers)
-   (find-matches-per-line #"\d+" to-number-and-position)
+   (find-matches-per-line)
    (flatten)))
+
+(defn find-all-numbers-and-their-positions [lines]
+  (find-all-matches
+   lines
+   (partial find-matches-per-line #"\d+" to-number-and-position)))
 
 (defn in-bounds? [lines position]
   (let [[x y] position]
