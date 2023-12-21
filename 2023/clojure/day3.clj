@@ -17,16 +17,17 @@
 
 (defn has-a-match [match-result] (not (nil? match-result)))
 
-(defn find-numbers-and-positions-per-line [regex numbered-lines]
+(defn find-matches-per-line
+  [regex to-result numbered-lines]
   (let [results-per-line
-       (map
-        (fn [[index line]]
-          (let [matcher (re-matcher regex line)]
-            (->>
-             (repeatedly (partial find-next-match matcher))
-             (take-while has-a-match)
-             (to-number-and-position matcher index))))
-        numbered-lines)]
+        (map
+         (fn [[index line]]
+           (let [matcher (re-matcher regex line)]
+             (->>
+              (repeatedly (partial find-next-match matcher))
+              (take-while has-a-match)
+              (to-result matcher index))))
+         numbered-lines)]
 
     (->> results-per-line (filter not-empty))))
 
@@ -34,7 +35,7 @@
   (->>
    lines
    (with-line-numbers)
-   (find-numbers-and-positions-per-line #"\d+")
+   (find-matches-per-line #"\d+" to-number-and-position)
    (flatten)))
 
 (defn in-bounds? [lines position]
