@@ -23,9 +23,34 @@
    (fn [[left-id right-id]] (abs(- right-id left-id)))
    paired-ids))
 
+(defn count-of [value list]
+  (->> list
+       (filter (fn [id] (= id value)))
+       (count)))
+
+(defn pair-left-with-count-in-right [[left-list right-list]]
+  (map
+   (fn [id] [id (count-of id right-list)])
+   left-list))
+
+(defn changes-in-score [ids-and-counts]
+  (map
+   (fn [[id count]] (* id count))
+   ids-and-counts))
+
+(defn similarity-score [ids-and-counts]
+  (->> ids-and-counts
+       (changes-in-score)
+       (total)))
+
 (->> (read-lines "day1-input")
      (parse-lists-of-location-ids)
      (sort-lists)
      (pair-ids)
      (distance-between)
      (total))
+
+(->> (read-lines "day1-input")
+     (parse-lists-of-location-ids)
+     (pair-left-with-count-in-right)
+     (similarity-score))
