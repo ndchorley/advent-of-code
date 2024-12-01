@@ -28,7 +28,7 @@
        (filter (fn [id] (= id value)))
        (count)))
 
-(defn pair-left-with-count-in-right [[left-list right-list]]
+(defn pair-id-with-count-in-right [[left-list right-list]]
   (map
    (fn [id] [id (count-of id right-list)])
    left-list))
@@ -52,5 +52,5 @@
 
 (->> (read-lines "day1-input")
      (parse-lists-of-location-ids)
-     (pair-left-with-count-in-right)
+     (pair-id-with-count-in-right)
      (similarity-score))
