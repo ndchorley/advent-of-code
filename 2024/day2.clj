@@ -37,9 +37,34 @@
    (adjacent-levels-differ-by-at-least-one-and-at-most-three
     report)))
 
+(defn remove-at [index report]
+  (let [parts (split-at index report)]
+    (concat (first parts) (rest (second parts)))))
+
+(defn reports-after-removing-one-level [report]
+  (let [indexes (range (count report))]
+    (map
+     (fn [index] (remove-at index report))
+     indexes)))
+
+(defn contains-safe-report? [reports]
+  (->> reports
+       (map is-safe?)
+       (filter true?)
+       (not-empty?)))
+
+(defn is-safe-with-problem-dampener? [report]
+  (->> report
+       (reports-after-removing-one-level)
+       (contains-safe-report?)))
 
 (defn only-the-safe-reports [reports]
-  (filter is-safe? reports))
+  (filter
+   (fn [report]
+     (or
+      (is-safe? report)
+      (is-safe-with-problem-dampener? report)))
+   reports))
 
 (->> (read-lines "day2-input")
      (parse-reports)
