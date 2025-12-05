@@ -11,6 +11,33 @@ let rotationFrom (line: string) =
 
 let parseRotations lines = Seq.map rotationFrom lines
 
+let newPosition currentPosition rotation =
+    let positionThatMightBeNegative = currentPosition + rotation
+
+    let unboundedNewPosition =
+        if positionThatMightBeNegative < 0 then
+            100 + positionThatMightBeNegative
+        else
+            positionThatMightBeNegative
+
+    unboundedNewPosition % 100
+
+let applyRotations startingFrom rotations =
+    Seq.fold
+        (fun dialPositions rotation ->
+            let currentPosition = Seq.head dialPositions
+
+            Seq.insertAt 0 (newPosition currentPosition rotation) dialPositions
+        )
+        (Seq.singleton startingFrom)
+        rotations
+
+let countTheZeros dialPositions =
+    Seq.filter (fun position -> position = 0) dialPositions
+    |> Seq.length
+
 System.IO.File.ReadLines "day1-input"
 |> parseRotations
-|> Seq.iter (fun rotation -> printfn "%d" rotation) 
+|> applyRotations 50
+|> countTheZeros
+|> (fun count -> printfn $"{count}")
