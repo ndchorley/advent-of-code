@@ -1,4 +1,4 @@
-let parseRotation (line: string) =
+let rotationFrom (line: string) =
     let direction = line.Chars 0
     let distance =
         line.Substring 1
@@ -9,6 +9,8 @@ let parseRotation (line: string) =
     else
         distance
 
+let parseRotations lines = Seq.map rotationFrom lines
+
 System.IO.File.ReadLines "day1-input"
-|> Seq.map parseRotation
+|> parseRotations
 |> Seq.iter (fun rotation -> printfn "%d" rotation) 
