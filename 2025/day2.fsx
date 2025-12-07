@@ -29,19 +29,18 @@ let findInvalidIds range =
     |> Seq.filter (fun id -> isEven id.Length)
     |> Seq.filter isInvalid
     |> Seq.map (fun id -> LanguagePrimitives.ParseUInt64 id)
-    |> List.ofSeq
 
 let invalidIdsInEach ranges =
     Array.map findInvalidIds ranges
 
 let asOneList invalidIdsPerRange =
     Array.fold
-        (fun allIds idsForARange -> List.append allIds idsForARange)
-        []
+        (fun allIds idsForARange -> Seq.append allIds idsForARange)
+        Seq.empty
         invalidIdsPerRange
 
 let addThemUp ids =
-    List.fold
+    Seq.fold
         (fun total id -> total + id)
         0UL
         ids
