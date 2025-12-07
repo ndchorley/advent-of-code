@@ -26,8 +26,7 @@ let isInvalid (id: string) =
 let findInvalidIds range =
     seq { range.first .. range.last }
     |> Seq.map (fun id -> id.ToString())
-    |> Seq.filter (fun id -> isEven id.Length)
-    |> Seq.filter isInvalid
+    |> Seq.filter (fun id -> isEven id.Length && isInvalid id)
     |> Seq.map (fun id -> LanguagePrimitives.ParseUInt64 id)
 
 let invalidIdsInEach ranges =
