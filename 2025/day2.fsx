@@ -1,4 +1,4 @@
-type Range = { first: uint64; last: uint64}
+type Range = { first: uint64; last: uint64 }
 
 let rangeFrom (string: string) : Range =
     let parts = string.Split "-"
@@ -11,7 +11,6 @@ let rangeFrom (string: string) : Range =
 let parseRanges (line: string) =
     line.Split ","
     |> Array.map rangeFrom
-
 
 let isEven value = value % 2 = 0
 
@@ -49,4 +48,3 @@ System.IO.File.ReadAllText "day2-input"
 |> invalidIdsInEach
 |> asOneList
 |> addThemUp
-|> (fun total -> printfn $"{total}")

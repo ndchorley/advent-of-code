@@ -40,4 +40,3 @@ System.IO.File.ReadLines "day1-input"
 |> parseRotations
 |> applyRotations 50
 |> countTheZeros
-|> (fun count -> printfn $"{count}")
