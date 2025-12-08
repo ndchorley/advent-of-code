@@ -37,10 +37,12 @@ let asOneList invalidIdsPerRange =
         Seq.empty
         invalidIdsPerRange
 
-let addThemUp ids = Seq.sum ids
+let addThemUp ids =
+    ids
+    |> asOneList
+    |> Seq.sum
 
 System.IO.File.ReadAllText "day2-input"
 |> parseRanges
 |> invalidIdsInEach
-|> asOneList
 |> addThemUp
