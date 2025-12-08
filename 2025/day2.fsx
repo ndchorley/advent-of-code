@@ -31,7 +31,7 @@ let findInvalidIds range =
 let invalidIdsInEach ranges =
     Array.map findInvalidIds ranges
 
-let asOneList invalidIdsPerRange =
+let asOneSequence invalidIdsPerRange =
     Array.fold
         (fun allIds idsForARange -> Seq.append allIds idsForARange)
         Seq.empty
@@ -39,7 +39,7 @@ let asOneList invalidIdsPerRange =
 
 let addThemUp ids =
     ids
-    |> asOneList
+    |> asOneSequence
     |> Seq.sum
 
 System.IO.File.ReadAllText "day2-input"
