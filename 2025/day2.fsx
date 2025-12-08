@@ -37,11 +37,7 @@ let asOneList invalidIdsPerRange =
         Seq.empty
         invalidIdsPerRange
 
-let addThemUp ids =
-    Seq.fold
-        (fun total id -> total + id)
-        0UL
-        ids
+let addThemUp ids = Seq.sum ids
 
 System.IO.File.ReadAllText "day2-input"
 |> parseRanges
