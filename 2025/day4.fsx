@@ -11,10 +11,11 @@ let toCoordinates grid =
             |> Array.mapi (fun columnNumber _ -> [rowNumber; columnNumber])
         )
     |> Array.concat
+    |> List.ofArray
 
-let butOnlyTheRolls (grid: char array array) (allCoordinatesOnTheGrid: int list array) =
+let butOnlyTheRolls (grid: char array array) (allCoordinatesOnTheGrid: int list list) =
     allCoordinatesOnTheGrid
-    |> Array.filter
+    |> List.filter
         (fun coordinates ->
             let rowNumber = coordinates.Item 0
             let columnNumber = coordinates.Item 1
@@ -58,34 +59,23 @@ let adjacentCoordinates (gridDimensions: GridDimensions) (roll: int list) =
 let dimensionsOf (grid: char array array) =
     { height = grid.Length; width = grid[0].Length }
 
-let onlyTheRolls (grid: char array array) (coordinates: int list list) =
-    coordinates
-    |> List.filter
-        (fun coordinates ->
-            let rowNumber = coordinates.Item 0
-            let columnNumber = coordinates.Item 1
-
-            grid[rowNumber][columnNumber] = '@'
-        )
-
 let countThem coordinates =
     List.length coordinates
 
 let adjacentRolls grid roll =
     adjacentCoordinates (dimensionsOf grid) roll
-    |> onlyTheRolls grid
+    |> butOnlyTheRolls grid
     |> countThem
 
-let andOnlyThoseWithFewerThanFourAdjacentRolls (grid: char array array) (rolls: int list array) =
+let andOnlyThoseWithFewerThanFourAdjacentRolls (grid: char array array) (rolls: int list list) =
     rolls
-    |> Array.filter
+    |> List.filter
         (fun roll ->
             let rowNumber = roll.Item 0
             let columnNumber = roll.Item 1
 
             adjacentRolls grid roll < 4
         )
-    |> List.ofArray
 
 let findTheRollsWithFewerThanFourAdjacentRolls grid =
     grid
