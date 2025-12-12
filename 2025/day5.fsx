@@ -40,11 +40,11 @@ let isInAny (ranges: IdRange list) id =
         )
         ranges
 
-let onlyThoseThatAreFresh freshIdRanges ids =
+let onlyThoseThatAreIn freshIdRanges ids =
     List.filter (isInAny freshIdRanges) ids
 
 let countThem ids = List.length ids
 
 ids
-|> onlyThoseThatAreFresh freshIdRanges
+|> onlyThoseThatAreIn freshIdRanges
 |> countThem
