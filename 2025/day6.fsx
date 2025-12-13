@@ -10,10 +10,16 @@ let toGrid lines =
 
 let swapColumnsAndRows grid = Array.transpose grid
 
+let withoutTheOperation row =
+    Array.truncate (Array.length row - 1) row
+
+let asIntegers row =
+    Array.map LanguagePrimitives.ParseInt64 row
+
 let numbersFrom row =
     row
-    |> Array.truncate (Array.length row - 1)
-    |> Array.map LanguagePrimitives.ParseInt64
+    |> withoutTheOperation
+    |> asIntegers
 
 let turnEachRowIntoAProblem rows =
     Array.map
