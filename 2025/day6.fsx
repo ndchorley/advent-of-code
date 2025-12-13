@@ -1,12 +1,12 @@
 type Problem = { operation: (int64 -> int64 -> int64); numbers: int64 array }
 
 let toGrid lines =
-    lines
-    |> Array.map
+    Array.map
         (fun line ->
             System.Text.RegularExpressions.Regex.Split(line, "\\s+")
             |> Array.filter (fun value -> value <> "")
         )
+        lines
 
 let swapColumnsAndRows grid = Array.transpose grid
 
